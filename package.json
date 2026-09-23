@@ -1,0 +1,11 @@
+{
+  "name": "portfolio-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix website run dev",
+    "dev:website": "npm --prefix website run dev",
+    "dev:admin": "npm --prefix admin-panel run dev",
+    "dev:backend": "npm --prefix backend run dev"
+  }
+}

@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #fffbf5;
+  --foreground: #3b1400;
+  --primary: #d97706;
+  --primary-dark: #b45309;
+  --text-muted: #3b1400;
+  --text-secondary: #3b1400;
+  --surface-white: #ffffff;
+  --dark-banner: #170d06;
+}
+
+body {
+  background-color: #fffbf5;
+  color: #3b1400;
+  font-family: var(--font-poppins), 'Poppins', var(--font-sans), 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  line-height: 1.75;
+}
+
+/* Base Paragraph Typography matching user reference screenshot 1 design */
+p {
+  color: #3b1400;
+  font-family: var(--font-poppins), 'Poppins', var(--font-sans), sans-serif;
+  line-height: 1.75;
+  font-weight: 500;
+}
+
+strong, b {
+  color: #3b1400;
+  font-weight: 700;
+}
+
+/* Glassmorphism Navigation */
+.navbar-glass {
+  background: rgba(255, 251, 245, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(217, 119, 6, 0.2);
+  box-shadow: 0 10px 30px -5px rgba(217, 119, 6, 0.08);
+}
+
+/* Cream Aesthetic Cards */
+.card-amber {
+  background: #ffffff;
+  border: 1px solid rgba(217, 119, 6, 0.18);
+  box-shadow: 0 12px 35px -10px rgba(217, 119, 6, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-amber:hover {
+  border-color: rgba(217, 119, 6, 0.45);
+  transform: translateY(-4px);
+  box-shadow: 0 18px 45px -10px rgba(217, 119, 6, 0.18);
+}
+
+/* Dark Accent Cards & Footer */
+.dark-section {
+  background: #170d06;
+  color: #fffbf5;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #fffbf5;
+}
+::-webkit-scrollbar-thumb {
+  background: #d97706;
+  border-radius: 0px;
+}
