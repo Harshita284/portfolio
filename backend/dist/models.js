@@ -49,6 +49,7 @@ const ProjectSchema = new mongoose_1.Schema({
     highlights: { type: [String], default: [] },
     architecture: { type: String, default: '' },
     styling: { type: String, default: '' },
+    challenges: [{ problem: String, solution: String }],
     image: { type: String, default: '' },
     images: { type: [String], default: [] },
     link: { type: String, default: '#' },

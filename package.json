@@ -6,6 +6,8 @@
     "dev": "npm --prefix website run dev",
     "dev:website": "npm --prefix website run dev",
     "dev:admin": "npm --prefix admin-panel run dev",
-    "dev:backend": "npm --prefix backend run dev"
+    "dev:backend": "npm --prefix backend run dev",
+    "build": "npm --prefix website run build",
+    "start": "npm --prefix website run start"
   }
 }

@@ -698,6 +698,11 @@ app.delete('/api/messages/:id', async (req: Request, res: Response) => {
   }
 });
 
-app.listen(Number(PORT), '0.0.0.0', () => {
-  console.log(`Backend API Server running for Harshita Sharma on http://localhost:${PORT} [env: ${process.env.NODE_ENV || 'development'}]`);
-});
+if (!process.env.VERCEL) {
+  app.listen(Number(PORT), '0.0.0.0', () => {
+    console.log(`Backend API Server running for Harshita Sharma on http://localhost:${PORT} [env: ${process.env.NODE_ENV || 'development'}]`);
+  });
+}
+
+export default app;
+

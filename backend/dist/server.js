@@ -61,8 +61,8 @@ const initialProfile = {
     codeLines: "30K+",
     performanceScore: "99%",
     social: {
-        github: "https://github.com/harshitasharma",
-        linkedin: "https://linkedin.com/in/harshita-sharma",
+        github: "https://github.com/Harshita284",
+        linkedin: "https://www.linkedin.com/in/harshita-sharma-b44548346/",
         email: "harshita.sh2202@gmail.com"
     }
 };
@@ -410,6 +410,7 @@ app.post('/api/projects', async (req, res) => {
             highlights: Array.isArray(req.body.highlights) ? req.body.highlights : (req.body.highlights ? req.body.highlights.split('\n').map((s) => s.trim()).filter(Boolean) : [description]),
             architecture: req.body.architecture || 'React & Node.js architecture.',
             styling: req.body.styling || 'Tailwind CSS responsive design system.',
+            challenges: Array.isArray(req.body.challenges) ? req.body.challenges : [],
             image: req.body.image || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
             images: Array.isArray(req.body.images) && req.body.images.length > 0 ? req.body.images : [req.body.image || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80'],
             link: req.body.link || '#',
@@ -474,11 +475,20 @@ app.get('/api/expertise', async (req, res) => {
 app.get('/api/expertise/:slug', async (req, res) => {
     try {
         const { slug } = req.params;
-        let query = { slug };
-        if (mongoose_1.default.Types.ObjectId.isValid(slug)) {
-            query = { $or: [{ _id: slug }, { slug }] };
+        let item = await models_1.ExpertiseModel.findOne({ slug });
+        if (!item && mongoose_1.default.Types.ObjectId.isValid(slug)) {
+            item = await models_1.ExpertiseModel.findById(slug);
         }
-        const item = await models_1.ExpertiseModel.findOne(query);
+        if (!item) {
+            // Perform normalized slug fallback search
+            const normQuery = slug.toLowerCase().replace(/[^a-z0-9]/g, '');
+            const allItems = await models_1.ExpertiseModel.find();
+            item = allItems.find(i => {
+                const normItemSlug = (i.slug || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+                const normTitle = (i.title || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+                return normItemSlug === normQuery || normTitle.includes(normQuery) || normQuery.includes(normItemSlug);
+            }) || null;
+        }
         if (!item) {
             return res.status(404).json({ success: false, message: 'Expertise item not found.' });
         }
@@ -673,6 +683,9 @@ app.delete('/api/messages/:id', async (req, res) => {
         res.status(500).json({ success: false, message: 'Failed to delete message' });
     }
 });
-app.listen(Number(PORT), '0.0.0.0', () => {
-    console.log(`Backend API Server running for Harshita Sharma on http://localhost:${PORT} [env: ${process.env.NODE_ENV || 'development'}]`);
-});
+if (!process.env.VERCEL) {
+    app.listen(Number(PORT), '0.0.0.0', () => {
+        console.log(`Backend API Server running for Harshita Sharma on http://localhost:${PORT} [env: ${process.env.NODE_ENV || 'development'}]`);
+    });
+}
+exports.default = app;
