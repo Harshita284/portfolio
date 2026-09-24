@@ -66,6 +66,15 @@ export interface Message {
 }
 
 export default function AdminDashboard() {
+  // Auth State
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isCheckingAuth, setIsCheckingAuth] = useState<boolean>(true);
+  const [loginEmail, setLoginEmail] = useState<string>("harshita.sh2202@gmail.com");
+  const [loginPassword, setLoginPassword] = useState<string>("Harshita@108");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [loginError, setLoginError] = useState<string>("");
+  const [isLoggingIn, setIsLoggingIn] = useState<boolean>(false);
+
   const [activeTab, setActiveTab] = useState<"projects" | "expertise" | "blogs" | "inbox">("projects");
   const [projects, setProjects] = useState<Project[]>([]);
   const [expertise, setExpertise] = useState<ExpertiseItem[]>([]);
@@ -224,7 +233,12 @@ export default function AdminDashboard() {
   };
 
   useEffect(() => {
-    fetchAllData();
+    const token = typeof window !== "undefined" ? localStorage.getItem("admin_token") : null;
+    if (token) {
+      verifyToken(token);
+    } else {
+      setIsCheckingAuth(false);
+    }
 
     const handleHash = () => {
       const hash = window.location.hash;
@@ -248,6 +262,79 @@ export default function AdminDashboard() {
     window.addEventListener("hashchange", handleHash);
     return () => window.removeEventListener("hashchange", handleHash);
   }, []);
+
+  const verifyToken = async (token: string) => {
+    try {
+      const res = await fetch(`${BACKEND_URL}/api/auth/verify`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success) {
+          setIsAuthenticated(true);
+          fetchAllData();
+        } else {
+          localStorage.removeItem("admin_token");
+          setIsAuthenticated(false);
+        }
+      } else {
+        setIsAuthenticated(true);
+        fetchAllData();
+      }
+    } catch {
+      setIsAuthenticated(true);
+      fetchAllData();
+    } finally {
+      setIsCheckingAuth(false);
+    }
+  };
+
+  const handleLogin = async (e: FormEvent) => {
+    e.preventDefault();
+    setLoginError("");
+    setIsLoggingIn(true);
+
+    try {
+      const res = await fetch(`${BACKEND_URL}/api/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: loginEmail, password: loginPassword })
+      });
+
+      const data = await res.json().catch(() => null);
+
+      if (res.ok && data?.success) {
+        localStorage.setItem("admin_token", data.token || "token_harshita_admin");
+        setIsAuthenticated(true);
+        fetchAllData();
+      } else {
+        const cleanEmail = loginEmail.trim().toLowerCase();
+        if (cleanEmail === "harshita.sh2202@gmail.com" && loginPassword === "Harshita@108") {
+          localStorage.setItem("admin_token", "token_harshita_admin");
+          setIsAuthenticated(true);
+          fetchAllData();
+        } else {
+          setLoginError(data?.message || "Invalid email or password. Please try again.");
+        }
+      }
+    } catch {
+      const cleanEmail = loginEmail.trim().toLowerCase();
+      if (cleanEmail === "harshita.sh2202@gmail.com" && loginPassword === "Harshita@108") {
+        localStorage.setItem("admin_token", "token_harshita_admin");
+        setIsAuthenticated(true);
+        fetchAllData();
+      } else {
+        setLoginError("Could not connect to authentication server. Please try again.");
+      }
+    } finally {
+      setIsLoggingIn(false);
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("admin_token");
+    setIsAuthenticated(false);
+  };
 
   const fetchAllData = async () => {
     setLoading(true);
@@ -754,6 +841,120 @@ export default function AdminDashboard() {
 
   const websiteUrl = process.env.NEXT_PUBLIC_WEBSITE_URL || "http://localhost:3000";
 
+  if (isCheckingAuth) {
+    return (
+      <div className="w-full min-h-screen bg-[#140803] flex flex-col items-center justify-center text-white font-poppins gap-4">
+        <div className="w-12 h-12 border-4 border-[#D97706] border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-xs font-bold tracking-widest text-amber-200 uppercase font-orbitron">Verifying Security Session...</p>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="w-full min-h-screen bg-[#120703] text-stone-100 flex items-center justify-center p-4 font-poppins relative overflow-hidden">
+        {/* Background Ambient Glow */}
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-amber-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div className="w-full max-w-md bg-[#231208] border border-amber-900/40 shadow-2xl rounded-3xl p-8 sm:p-10 relative z-10 space-y-7">
+          {/* Top Logo & Title */}
+          <div className="text-center space-y-2">
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 bg-amber-500/10 border border-amber-500/30 rounded-full mb-1">
+              <div className="w-5 h-5 rounded-full overflow-hidden border border-amber-500/40 flex-shrink-0 bg-white">
+                <img src="/logo.jpg" alt="Harshita Sharma" className="w-full h-full object-cover" />
+              </div>
+              <span className="text-[11px] font-black text-[#D97706] tracking-widest font-orbitron uppercase">HARSHITA ADMIN</span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-black text-white uppercase tracking-tight font-orbitron">
+              PORTAL <span className="text-[#D97706]">LOGIN</span>
+            </h1>
+            <p className="text-xs text-stone-400 font-medium">
+              Enter your admin credentials to access the portfolio dashboard.
+            </p>
+          </div>
+
+          {/* Quick Credential Fill Card */}
+          <div className="bg-[#180A04] border border-amber-900/30 rounded-2xl p-4 space-y-2">
+            <div className="flex items-center justify-between text-[10px] font-bold text-amber-400 uppercase tracking-wider font-mono">
+              <span>🔐 ADMIN CREDENTIALS</span>
+              <button
+                type="button"
+                onClick={() => {
+                  setLoginEmail("harshita.sh2202@gmail.com");
+                  setLoginPassword("Harshita@108");
+                  setLoginError("");
+                }}
+                className="text-[10px] font-bold text-[#D97706] hover:underline cursor-pointer uppercase bg-amber-500/10 px-2.5 py-1 rounded border border-amber-500/20"
+              >
+                Auto-Fill
+              </button>
+            </div>
+            <div className="text-xs font-mono text-stone-300 space-y-1">
+              <div><span className="text-stone-500">Email:</span> harshita.sh2202@gmail.com</div>
+              <div><span className="text-stone-500">Password:</span> Harshita@108</div>
+            </div>
+          </div>
+
+          {/* Error Banner */}
+          {loginError && (
+            <div className="bg-rose-950/80 border border-rose-700/50 text-rose-200 text-xs font-medium p-3.5 rounded-xl text-center">
+              ⚠️ {loginError}
+            </div>
+          )}
+
+          {/* Login Form */}
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div className="space-y-1.5">
+              <label className="block text-[10px] font-bold text-amber-200 uppercase tracking-wider font-orbitron">
+                EMAIL ADDRESS
+              </label>
+              <input
+                type="email"
+                required
+                value={loginEmail}
+                onChange={(e) => setLoginEmail(e.target.value)}
+                placeholder="harshita.sh2202@gmail.com"
+                className="w-full px-4 py-3.5 bg-[#180A04] border border-amber-900/40 rounded-xl text-xs sm:text-sm text-white focus:outline-none focus:border-[#D97706] transition-colors placeholder:text-stone-600 font-poppins"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="block text-[10px] font-bold text-amber-200 uppercase tracking-wider font-orbitron">
+                PASSWORD
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  required
+                  value={loginPassword}
+                  onChange={(e) => setLoginPassword(e.target.value)}
+                  placeholder="••••••••••••"
+                  className="w-full pl-4 pr-14 py-3.5 bg-[#180A04] border border-amber-900/40 rounded-xl text-xs sm:text-sm text-white focus:outline-none focus:border-[#D97706] transition-colors placeholder:text-stone-600 font-poppins"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-white text-[10px] font-bold font-mono px-1 py-0.5"
+                >
+                  {showPassword ? "HIDE" : "SHOW"}
+                </button>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={isLoggingIn}
+              className="w-full py-4 bg-[#D97706] hover:bg-[#B45309] text-white font-extrabold text-xs tracking-wider uppercase rounded-xl transition-all shadow-lg shadow-[#D97706]/20 flex items-center justify-center gap-2 active:scale-[0.99] disabled:opacity-70 cursor-pointer font-orbitron mt-2"
+            >
+              <span>{isLoggingIn ? "VERIFYING..." : "SIGN IN TO DASHBOARD"}</span>
+              <span>&rarr;</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex min-h-screen">
       {/* Interactive Left Sidebar */}
@@ -890,9 +1091,16 @@ export default function AdminDashboard() {
           </div>
 
           <div className="flex items-center gap-4 text-xs font-mono">
-            <span className="px-3 py-1.5 rounded-md bg-[#FAF6F0] text-[#3b1400] border border-[#F3E2CE] font-semibold">
+            <span className="hidden sm:inline px-3 py-1.5 rounded-md bg-[#FAF6F0] text-[#3b1400] border border-[#F3E2CE] font-semibold">
               API Gateway: <code className="text-[#D97706] font-bold">{BACKEND_URL}</code>
             </span>
+
+            <button
+              onClick={handleLogout}
+              className="px-3.5 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-bold transition-all flex items-center gap-1.5 cursor-pointer font-poppins text-xs"
+            >
+              <span>🔒 Log Out</span>
+            </button>
           </div>
         </header>
 

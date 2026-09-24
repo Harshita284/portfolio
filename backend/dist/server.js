@@ -46,6 +46,48 @@ app.get('/', (req, res) => {
 app.get('/api', (req, res) => {
     res.json({ success: true, message: 'Portfolio API endpoints: /api/projects, /api/blogs, /api/expertise, /api/messages, /api/profile, /api/upload' });
 });
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'harshita.sh2202@gmail.com';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Harshita@108';
+// Admin Login Endpoint
+app.post('/api/auth/login', (req, res) => {
+    const { email, password } = req.body;
+    if (!email || !password) {
+        return res.status(400).json({ success: false, message: 'Please provide both email and password.' });
+    }
+    const cleanEmail = String(email).trim().toLowerCase();
+    const targetEmail = String(ADMIN_EMAIL).trim().toLowerCase();
+    if (cleanEmail === targetEmail && password === ADMIN_PASSWORD) {
+        const token = `token_${Date.now()}_harshita_admin_session`;
+        return res.json({
+            success: true,
+            message: 'Login successful! Welcome back, Harshita.',
+            token,
+            user: {
+                email: ADMIN_EMAIL,
+                name: 'Harshita Sharma',
+                role: 'Fullstack Architect & Administrator',
+            },
+        });
+    }
+    else {
+        return res.status(401).json({ success: false, message: 'Invalid email or password. Please try again.' });
+    }
+});
+// Admin Verify Session Endpoint
+app.get('/api/auth/verify', (req, res) => {
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+        return res.json({
+            success: true,
+            user: {
+                email: ADMIN_EMAIL,
+                name: 'Harshita Sharma',
+                role: 'Fullstack Architect & Administrator',
+            },
+        });
+    }
+    return res.status(401).json({ success: false, message: 'Unauthorized session.' });
+});
 // Cloudinary Image Upload Endpoint
 app.post('/api/upload', async (req, res) => {
     try {
