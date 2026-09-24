@@ -22,6 +22,7 @@ interface HeaderProps {
 export default function Header({ logoText = "HARSHITA", activePath }: HeaderProps) {
   const pathname = usePathname() || "/";
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileExpertiseOpen, setIsMobileExpertiseOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
@@ -399,10 +400,76 @@ export default function Header({ logoText = "HARSHITA", activePath }: HeaderProp
 
       {/* Mobile Drawer Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden pointer-events-auto w-full bg-white border-b border-amber-900/15 shadow-xl p-5 animate-in fade-in slide-in-from-top-3 duration-200">
-          <div className="flex flex-col space-y-3">
+        <div className="md:hidden pointer-events-auto w-full bg-white border-b border-amber-900/15 shadow-xl p-5 animate-in fade-in slide-in-from-top-3 duration-200 max-h-[85vh] overflow-y-auto">
+          <div className="flex flex-col space-y-2">
             {navItems.map((item) => {
               const isActive = activeItem === item.name;
+              const hasDropdown = item.hasDropdown;
+
+              if (hasDropdown) {
+                return (
+                  <div key={item.name} className="flex flex-col">
+                    <button
+                      type="button"
+                      onClick={() => setIsMobileExpertiseOpen(!isMobileExpertiseOpen)}
+                      className="w-full flex items-center justify-between text-left cursor-pointer"
+                      style={{
+                        padding: "10px 24px",
+                        borderRadius: "0px",
+                        color: isActive || isMobileExpertiseOpen ? "#D97706" : "#6b2e0a",
+                        fontWeight: 700,
+                        fontSize: "0.98rem",
+                        background: isActive || isMobileExpertiseOpen ? "rgba(217, 119, 6, 0.05)" : "transparent",
+                        border: isActive || isMobileExpertiseOpen ? "1px solid #D97706" : "1px solid transparent",
+                        fontFamily: "var(--font-poppins), 'Poppins', sans-serif",
+                      }}
+                    >
+                      <span>{item.name}</span>
+                      <svg
+                        className={`w-4 h-4 transition-transform duration-200 ${
+                          isMobileExpertiseOpen ? "rotate-180 text-[#D97706]" : "text-[#703513]"
+                        }`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+
+                    {/* Mobile Expertise Submenu */}
+                    {isMobileExpertiseOpen && (
+                      <div className="bg-[#FAF6F0] border-l-2 border-[#D97706] my-1 ml-4 pl-3 py-2 space-y-2">
+                        {[
+                          { name: "React & Next.js", href: "/expertise/react-nextjs" },
+                          { name: "Three.js & R3F", href: "/expertise/three-js" },
+                          { name: "Redux & State Systems", href: "/expertise/react-nextjs" },
+                          { name: "Node.js & Express", href: "/expertise/node-js" },
+                          { name: "MongoDB Database", href: "/expertise/mongodb" },
+                          { name: "RESTful APIs & Auth", href: "/expertise/express-js" },
+                          { name: "Complete MERN Stack", href: "/expertise/mern-stack" },
+                          { name: "TypeScript Systems", href: "/expertise/typescript" },
+                          { name: "System Architecture", href: "/expertise/system-architecture" },
+                        ].map((subItem) => (
+                          <a
+                            key={subItem.name}
+                            href={subItem.href}
+                            onClick={() => {
+                              setIsMobileMenuOpen(false);
+                              setIsMobileExpertiseOpen(false);
+                            }}
+                            className="block py-1.5 px-3 text-xs font-semibold text-[#703513] hover:text-[#D97706] font-poppins"
+                          >
+                            <span className="text-[#D97706] mr-1.5">›</span>
+                            {subItem.name}
+                          </a>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+
               return (
                 <a
                   key={item.name}

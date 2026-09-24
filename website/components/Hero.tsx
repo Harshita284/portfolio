@@ -187,24 +187,40 @@ export default function Hero() {
               alt="Harshita Sharma — Fullstack MERN Developer"
               fill
               priority
-              className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
+              className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
             />
 
             {/* Gradient Overlay for Text Legibility */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-black/30"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/20 pointer-events-none"></div>
+
+            {/* Top Left Badge: 2+ YRS EXP. */}
+            <div className="absolute top-4 left-4 bg-white/95 text-[#3b1400] px-3.5 py-1.5 shadow-xl border border-amber-900/15 z-10 rounded-full flex items-center gap-1.5">
+              <span
+                className="text-xs font-black text-[#D97706]"
+                style={{ fontFamily: "var(--font-orbitron), system-ui, sans-serif" }}
+              >
+                2+ YRS
+              </span>
+              <span
+                className="text-[9px] font-bold uppercase tracking-wider text-[#703513]"
+                style={{ fontFamily: "var(--font-poppins), 'Poppins', sans-serif" }}
+              >
+                EXP.
+              </span>
+            </div>
 
             {/* Top Right Orange Badge: MERN FULL-STACK */}
             <div
-              className="absolute top-4 right-4 bg-[#D97706] text-white px-3.5 py-1.5 text-[10px] font-black uppercase tracking-widest shadow-lg rounded-full"
+              className="absolute top-4 right-4 bg-[#D97706] text-white px-3.5 py-1.5 text-[10px] font-black uppercase tracking-widest shadow-lg rounded-full z-10"
               style={{ fontFamily: "var(--font-orbitron), system-ui, sans-serif" }}
             >
               MERN FULL-STACK
             </div>
 
-            {/* Magazine Title Overlay (HARSHITA) */}
-            <div className="absolute bottom-22 sm:bottom-24 left-4 right-4 text-white text-center space-y-1.5 pointer-events-none">
+            {/* Bottom Title Overlay (HARSHITA) */}
+            <div className="absolute bottom-4 left-4 right-4 text-white text-center space-y-1 z-10 pointer-events-none">
               <h3
-                className="text-3xl sm:text-4xl font-black tracking-widest uppercase text-[#FBBF24] drop-shadow-md"
+                className="text-2xl sm:text-3xl font-black tracking-widest uppercase text-[#FBBF24] drop-shadow-md"
                 style={{ fontFamily: "var(--font-orbitron), system-ui, sans-serif" }}
               >
                 HARSHITA
@@ -215,22 +231,6 @@ export default function Hero() {
               >
                 FULLSTACK ENGINEER &amp; MERN ARCHITECT
               </p>
-            </div>
-
-            {/* Bottom Left Badge: 2+ YRS EXP. */}
-            <div className="absolute bottom-3 left-3 bg-white text-[#3b1400] px-3.5 py-2 shadow-xl border border-amber-900/15 z-10 rounded-2xl">
-              <div
-                className="text-base font-black leading-none text-[#D97706]"
-                style={{ fontFamily: "var(--font-orbitron), system-ui, sans-serif" }}
-              >
-                2+
-              </div>
-              <div
-                className="text-[9px] font-bold uppercase tracking-wider text-[#703513] mt-0.5"
-                style={{ fontFamily: "var(--font-poppins), 'Poppins', sans-serif" }}
-              >
-                YRS EXP.
-              </div>
             </div>
           </div>
         </div>
