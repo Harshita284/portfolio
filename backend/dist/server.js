@@ -34,6 +34,12 @@ app.use((0, cors_1.default)({
 }));
 app.use(express_1.default.json({ limit: '50mb' }));
 app.use(express_1.default.urlencoded({ limit: '50mb', extended: true }));
+app.get('/', (req, res) => {
+    res.json({ success: true, message: 'Portfolio Backend API is running successfully on Vercel!' });
+});
+app.get('/api', (req, res) => {
+    res.json({ success: true, message: 'Portfolio API endpoints: /api/projects, /api/blogs, /api/expertise, /api/messages, /api/profile' });
+});
 // Helper function to sanitize user-provided slugs (e.g. converting "https://www.dilbahars.com/" to "dilbahars")
 function sanitizeSlug(rawSlug, title) {
     let text = rawSlug && rawSlug.trim() !== '' ? rawSlug : title;
@@ -315,14 +321,28 @@ async function seedDatabaseIfEmpty() {
         console.error('❌ Error during database seeding:', err);
     }
 }
-// Connect to MongoDB
-mongoose_1.default.connect(MONGODB_URI)
-    .then(() => {
-    console.log('✅ Successfully connected to MongoDB Atlas database!');
-    seedDatabaseIfEmpty();
-})
-    .catch((err) => {
-    console.error('❌ Failed to connect to MongoDB Atlas:', err);
+// Serverless-safe Cached MongoDB Connection
+let isConnected = false;
+async function connectDB() {
+    if (isConnected && mongoose_1.default.connection.readyState === 1) {
+        return;
+    }
+    try {
+        await mongoose_1.default.connect(MONGODB_URI);
+        isConnected = mongoose_1.default.connection.readyState === 1;
+        console.log('✅ Connected to MongoDB Atlas database!');
+        await seedDatabaseIfEmpty();
+    }
+    catch (err) {
+        console.error('❌ Failed to connect to MongoDB Atlas:', err);
+    }
+}
+// Middleware to ensure DB connection before handling API routes
+app.use(async (req, res, next) => {
+    if (req.path !== '/' && req.path !== '/api') {
+        await connectDB();
+    }
+    next();
 });
 // ---------------- API ENDPOINTS ---------------- //
 app.get('/api/health', (req, res) => {

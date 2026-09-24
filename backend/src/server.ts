@@ -330,15 +330,31 @@ async function seedDatabaseIfEmpty() {
   }
 }
 
-// Connect to MongoDB
-mongoose.connect(MONGODB_URI)
-  .then(() => {
-    console.log('✅ Successfully connected to MongoDB Atlas database!');
-    seedDatabaseIfEmpty();
-  })
-  .catch((err) => {
+// Serverless-safe Cached MongoDB Connection
+let isConnected = false;
+
+async function connectDB() {
+  if (isConnected && mongoose.connection.readyState === 1) {
+    return;
+  }
+  try {
+    await mongoose.connect(MONGODB_URI);
+    isConnected = mongoose.connection.readyState === 1;
+    console.log('✅ Connected to MongoDB Atlas database!');
+    await seedDatabaseIfEmpty();
+  } catch (err) {
     console.error('❌ Failed to connect to MongoDB Atlas:', err);
-  });
+  }
+}
+
+// Middleware to ensure DB connection before handling API routes
+app.use(async (req: Request, res: Response, next) => {
+  if (req.path !== '/' && req.path !== '/api') {
+    await connectDB();
+  }
+  next();
+});
+
 
 // ---------------- API ENDPOINTS ---------------- //
 
