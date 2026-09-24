@@ -69,8 +69,8 @@ export default function AdminDashboard() {
   // Auth State
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isCheckingAuth, setIsCheckingAuth] = useState<boolean>(true);
-  const [loginEmail, setLoginEmail] = useState<string>("harshita.sh2202@gmail.com");
-  const [loginPassword, setLoginPassword] = useState<string>("Harshita@108");
+  const [loginEmail, setLoginEmail] = useState<string>("");
+  const [loginPassword, setLoginPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [loginError, setLoginError] = useState<string>("");
   const [isLoggingIn, setIsLoggingIn] = useState<boolean>(false);
@@ -873,28 +873,6 @@ export default function AdminDashboard() {
             </p>
           </div>
 
-          {/* Quick Credential Fill Card */}
-          <div className="bg-[#180A04] border border-amber-900/30 rounded-2xl p-4 space-y-2">
-            <div className="flex items-center justify-between text-[10px] font-bold text-amber-400 uppercase tracking-wider font-mono">
-              <span>🔐 ADMIN CREDENTIALS</span>
-              <button
-                type="button"
-                onClick={() => {
-                  setLoginEmail("harshita.sh2202@gmail.com");
-                  setLoginPassword("Harshita@108");
-                  setLoginError("");
-                }}
-                className="text-[10px] font-bold text-[#D97706] hover:underline cursor-pointer uppercase bg-amber-500/10 px-2.5 py-1 rounded border border-amber-500/20"
-              >
-                Auto-Fill
-              </button>
-            </div>
-            <div className="text-xs font-mono text-stone-300 space-y-1">
-              <div><span className="text-stone-500">Email:</span> harshita.sh2202@gmail.com</div>
-              <div><span className="text-stone-500">Password:</span> Harshita@108</div>
-            </div>
-          </div>
-
           {/* Error Banner */}
           {loginError && (
             <div className="bg-rose-950/80 border border-rose-700/50 text-rose-200 text-xs font-medium p-3.5 rounded-xl text-center">
@@ -913,7 +891,7 @@ export default function AdminDashboard() {
                 required
                 value={loginEmail}
                 onChange={(e) => setLoginEmail(e.target.value)}
-                placeholder="harshita.sh2202@gmail.com"
+                placeholder="Enter admin email address"
                 className="w-full px-4 py-3.5 bg-[#180A04] border border-amber-900/40 rounded-xl text-xs sm:text-sm text-white focus:outline-none focus:border-[#D97706] transition-colors placeholder:text-stone-600 font-poppins"
               />
             </div>
