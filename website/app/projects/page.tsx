@@ -45,9 +45,12 @@ export default function ProjectsPage() {
       const res = await fetch(`${BACKEND_URL}/api/projects`);
       if (res.ok) {
         const data = await res.json();
-        const list = data.data || [];
-        setProjects(list);
-        setFilteredProjects(list);
+        if (data.data && data.data.length > 0) {
+          setProjects(data.data);
+          setFilteredProjects(data.data);
+        } else {
+          setFallbackProjects();
+        }
       } else {
         setFallbackProjects();
       }
@@ -57,6 +60,7 @@ export default function ProjectsPage() {
       setLoading(false);
     }
   };
+
 
   const setFallbackProjects = () => {
     const fallback: Project[] = [

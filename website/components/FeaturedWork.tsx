@@ -50,12 +50,16 @@ export default function FeaturedWork({ projects: initialProjects }: FeaturedWork
     }
   ];
 
-  const [liveProjects, setLiveProjects] = React.useState<ProjectItem[]>(initialProjects || defaultProjects);
+  const hasInitial = initialProjects && initialProjects.length > 0;
+  const [liveProjects, setLiveProjects] = React.useState<ProjectItem[]>(hasInitial ? initialProjects : defaultProjects);
 
   const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5005";
 
   React.useEffect(() => {
-    if (initialProjects && initialProjects.length > 0) return;
+    if (initialProjects && initialProjects.length > 0) {
+      setLiveProjects(initialProjects);
+      return;
+    }
     const fetchProjects = async () => {
       try {
         const res = await fetch(`${BACKEND_URL}/api/projects`);
@@ -63,16 +67,19 @@ export default function FeaturedWork({ projects: initialProjects }: FeaturedWork
           const data = await res.json();
           if (data.data && data.data.length > 0) {
             setLiveProjects(data.data.slice(0, 3));
+            return;
           }
         }
+        setLiveProjects(defaultProjects);
       } catch (err) {
-        // Fallback gracefully to defaultProjects
+        setLiveProjects(defaultProjects);
       }
     };
     fetchProjects();
   }, [initialProjects]);
 
-  const displayProjects = liveProjects.slice(0, 3);
+  const displayProjects = liveProjects.length > 0 ? liveProjects.slice(0, 3) : defaultProjects.slice(0, 3);
+
 
   return (
     <section id="projects" className="w-full bg-[#FAF7F2] py-20 border-b border-amber-900/10">

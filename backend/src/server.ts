@@ -33,6 +33,15 @@ app.use(cors({
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
+app.get('/', (req: Request, res: Response) => {
+  res.json({ success: true, message: 'Portfolio Backend API is running successfully on Vercel!' });
+});
+
+app.get('/api', (req: Request, res: Response) => {
+  res.json({ success: true, message: 'Portfolio API endpoints: /api/projects, /api/blogs, /api/expertise, /api/messages, /api/profile' });
+});
+
+
 // Helper function to sanitize user-provided slugs (e.g. converting "https://www.dilbahars.com/" to "dilbahars")
 function sanitizeSlug(rawSlug: string | undefined, title: string): string {
   let text = rawSlug && rawSlug.trim() !== '' ? rawSlug : title;

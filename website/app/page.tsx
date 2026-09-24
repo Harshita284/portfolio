@@ -58,17 +58,26 @@ export default function Home() {
 
       if (projRes.ok) {
         const data = await projRes.json();
-        setProjects(data.data || []);
+        if (data.data && data.data.length > 0) {
+          setProjects(data.data);
+        } else {
+          setFallbackProjects();
+        }
       } else {
         setFallbackProjects();
       }
 
       if (artRes.ok) {
         const aData = await artRes.json();
-        setArticles(aData.data || []);
+        if (aData.data && aData.data.length > 0) {
+          setArticles(aData.data);
+        } else {
+          setFallbackArticles();
+        }
       } else {
         setFallbackArticles();
       }
+
     } catch {
       setFallbackProjects();
       setFallbackArticles();
