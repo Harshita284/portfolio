@@ -5,6 +5,7 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import CallToAction from "@/components/CallToAction";
 import Footer from "@/components/Footer";
+import { FaPenNib, FaMagnifyingGlass } from "react-icons/fa6";
 
 interface Article {
   id: string;
@@ -216,7 +217,8 @@ export default function BlogListPage() {
         {/* Hero Section Banner matching reference design */}
         <div className="text-center space-y-4 max-w-4xl mx-auto border-b border-amber-900/10 pb-10">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 bg-amber-500/10 border border-amber-600/30 text-amber-800 text-xs font-bold uppercase tracking-widest font-mono rounded-full">
-            <span>📝 PUBLICATIONS &amp; WRITINGS</span>
+            <FaPenNib className="w-3.5 h-3.5 text-[#D97706]" />
+            <span>PUBLICATIONS &amp; WRITINGS</span>
           </div>
 
           <h1
@@ -245,11 +247,10 @@ export default function BlogListPage() {
                 <button
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
-                  className={`px-4 py-2 text-xs font-bold tracking-wide rounded-full transition-all duration-200 select-none ${
-                    isActive
+                  className={`px-4 py-2 text-xs font-bold tracking-wide rounded-full transition-all duration-200 select-none ${isActive
                       ? "bg-[#D97706] text-white shadow-md shadow-[#D97706]/20"
                       : "bg-white border border-amber-900/15 text-[#703513] hover:border-[#D97706] hover:text-[#D97706]"
-                  }`}
+                    }`}
                   style={{ fontFamily: "var(--font-poppins), sans-serif" }}
                 >
                   {cat}
@@ -281,7 +282,9 @@ export default function BlogListPage() {
         {/* Blog Cards Grid */}
         {filteredArticles.length === 0 ? (
           <div className="text-center py-20 bg-white/60 border border-amber-900/10 rounded-2xl space-y-3">
-            <div className="text-4xl">🔍</div>
+            <div className="w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center mx-auto text-[#D97706] mb-2">
+              <FaMagnifyingGlass className="w-5 h-5" />
+            </div>
             <h3 className="text-lg font-bold text-[#2D1E18] font-orbitron">No Articles Found</h3>
             <p className="text-xs text-[#703513]">Try searching for different keywords or select another category.</p>
             <button

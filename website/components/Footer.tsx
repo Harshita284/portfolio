@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { FaGithub, FaLinkedinIn, FaInstagram, FaEnvelope } from "react-icons/fa6";
+import { FaGithub, FaLinkedinIn, FaInstagram, FaEnvelope, FaBolt } from "react-icons/fa6";
 
 export default function Footer() {
   const [copied, setCopied] = useState(false);
@@ -186,28 +186,38 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="/expertise/react-nextjs" className="hover:text-[#D97706] hover:translate-x-1 transition-all flex items-center gap-2 cursor-pointer">
-                  <span className="text-[#D97706] font-mono font-bold">›</span> Three.js / R3F
+                <a href="/expertise/three-js" className="hover:text-[#D97706] hover:translate-x-1 transition-all flex items-center gap-2 cursor-pointer">
+                  <span className="text-[#D97706] font-mono font-bold">›</span> Three.js &amp; R3F
                 </a>
               </li>
               <li>
                 <a href="/expertise/node-js" className="hover:text-[#D97706] hover:translate-x-1 transition-all flex items-center gap-2 cursor-pointer">
-                  <span className="text-[#D97706] font-mono font-bold">›</span> Node &amp; Express
+                  <span className="text-[#D97706] font-mono font-bold">›</span> Node.js &amp; Express
                 </a>
               </li>
               <li>
                 <a href="/expertise/mongodb" className="hover:text-[#D97706] hover:translate-x-1 transition-all flex items-center gap-2 cursor-pointer">
-                  <span className="text-[#D97706] font-mono font-bold">›</span> MongoDB
+                  <span className="text-[#D97706] font-mono font-bold">›</span> MongoDB Database
+                </a>
+              </li>
+              <li>
+                <a href="/expertise/express-js" className="hover:text-[#D97706] hover:translate-x-1 transition-all flex items-center gap-2 cursor-pointer">
+                  <span className="text-[#D97706] font-mono font-bold">›</span> RESTful APIs &amp; Auth
+                </a>
+              </li>
+              <li>
+                <a href="/expertise/mern-stack" className="hover:text-[#D97706] hover:translate-x-1 transition-all flex items-center gap-2 cursor-pointer">
+                  <span className="text-[#D97706] font-mono font-bold">›</span> Complete MERN Stack
+                </a>
+              </li>
+              <li>
+                <a href="/expertise/typescript" className="hover:text-[#D97706] hover:translate-x-1 transition-all flex items-center gap-2 cursor-pointer">
+                  <span className="text-[#D97706] font-mono font-bold">›</span> TypeScript Systems
                 </a>
               </li>
               <li>
                 <a href="/expertise/system-architecture" className="hover:text-[#D97706] hover:translate-x-1 transition-all flex items-center gap-2 cursor-pointer">
-                  <span className="text-[#D97706] font-mono font-bold">›</span> UI/UX Design
-                </a>
-              </li>
-              <li>
-                <a href="/expertise/system-architecture" className="hover:text-[#D97706] hover:translate-x-1 transition-all flex items-center gap-2 cursor-pointer">
-                  <span className="text-[#D97706] font-mono font-bold">›</span> Docker / CI-CD
+                  <span className="text-[#D97706] font-mono font-bold">›</span> System Architecture
                 </a>
               </li>
             </ul>
@@ -249,7 +259,8 @@ export default function Footer() {
               className="w-full py-3.5 bg-[#D97706] hover:bg-[#B45309] text-white font-black text-xs uppercase tracking-widest rounded-sm transition-all text-center flex items-center justify-center gap-2 shadow-lg shadow-[#D97706]/20"
               style={{ fontFamily: "var(--font-orbitron), system-ui, sans-serif" }}
             >
-              <span>⚡ HIRE ME</span>
+              <FaBolt className="w-3.5 h-3.5 text-white" />
+              <span>HIRE ME</span>
               <span>&rarr;</span>
             </a>
           </div>
@@ -258,7 +269,7 @@ export default function Footer() {
         {/* Bottom SEO & Copyright Bar */}
         <div className="pt-8 border-t border-amber-900/20 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-400">
           <div style={{ fontFamily: "var(--font-poppins), 'Poppins', sans-serif" }}>
-            &copy; {new Date().getFullYear()} <strong className="text-white font-bold" style={{ fontFamily: "var(--font-orbitron)" }}>HARSHITA SHARMA</strong> &bull; Crafted with <span className="text-[#D97706]">⚡</span> in Gurugram, Haryana
+            &copy; {new Date().getFullYear()} <strong className="text-white font-bold" style={{ fontFamily: "var(--font-orbitron)" }}>HARSHITA SHARMA</strong> &bull; Crafted with <FaBolt className="w-3 h-3 text-[#D97706] inline mx-1" /> in Gurugram, Haryana
           </div>
 
           <div className="flex items-center gap-2 text-[11px]" style={{ fontFamily: "var(--font-poppins)" }}>

@@ -286,11 +286,10 @@ export default function ContactPage() {
           <div id="contact-form" className="lg:col-span-7 bg-white border border-amber-900/15 rounded-3xl p-6 sm:p-10 shadow-xl space-y-6">
             {submitStatus && (
               <div
-                className={`p-4 rounded-xl text-xs font-bold ${
-                  submitStatus.type === "success"
+                className={`p-4 rounded-xl text-xs font-bold ${submitStatus.type === "success"
                     ? "bg-emerald-500/10 border border-emerald-600/30 text-emerald-800"
                     : "bg-rose-500/10 border border-rose-600/30 text-rose-800"
-                }`}
+                  }`}
                 style={{ fontFamily: "var(--font-poppins), 'Poppins', sans-serif" }}
               >
                 {submitStatus.text}
@@ -359,11 +358,10 @@ export default function ContactPage() {
                   onDragOver={handleDragOver}
                   onDragLeave={handleDragLeave}
                   onDrop={handleDrop}
-                  className={`relative border-2 border-dashed rounded-2xl p-4 transition-all text-center cursor-pointer ${
-                    isDragging
+                  className={`relative border-2 border-dashed rounded-2xl p-4 transition-all text-center cursor-pointer ${isDragging
                       ? "border-[#D97706] bg-[#D97706]/10 scale-[1.01]"
                       : "border-amber-900/20 bg-[#FAF6F0] hover:border-[#D97706] hover:bg-white"
-                  }`}
+                    }`}
                 >
                   <input
                     type="file"
@@ -534,7 +532,7 @@ export default function ContactPage() {
                   >
                     GitHub
                   </h3>
-                  <p className="text-xs text-[#703513]/70 font-medium">@harshitasharma</p>
+                  <p className="text-xs text-[#703513]/70 font-medium">@Harshita284</p>
                 </div>
                 <div>
                   <FaUpRightFromSquare className="w-3.5 h-3.5 text-stone-400/70 group-hover:text-[#D97706] transition-colors" />

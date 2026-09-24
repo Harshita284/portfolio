@@ -187,7 +187,7 @@ export default function ProjectDetailPage() {
       style={{ fontFamily: "var(--font-poppins), 'Poppins', sans-serif" }}
     >
       <main className="pt-2 sm:pt-4 pb-16 w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-        
+
         {/* Top 2-Column Hero Showcase matching exact reference mockup design */}
         <section className="pt-2 pb-8 mb-16 sm:mb-24 mt-4">
           {/* Top Breadcrumb Navigation (Shifted slightly right into target position) */}
@@ -256,95 +256,93 @@ export default function ProjectDetailPage() {
               </div>
             </div>
 
-          {/* Right Column (7 cols): Full width Browser Frame Mockup Showcase Container */}
-          <div className="lg:col-span-6 w-full">
-            <div className="relative w-full bg-white border border-[#3b1400]/15 rounded-[7px] p-3 sm:p-4 shadow-xl overflow-hidden group">
-              
-              {/* Browser Window Header Bar */}
-              <div className="flex items-center justify-between px-2 pb-2 border-b border-stone-100">
-                {/* Window Dots / Title */}
-                <div className="flex items-center gap-2">
+            {/* Right Column (7 cols): Full width Browser Frame Mockup Showcase Container */}
+            <div className="lg:col-span-6 w-full">
+              <div className="relative w-full bg-white border border-[#3b1400]/15 rounded-[7px] p-3 sm:p-4 shadow-xl overflow-hidden group">
+
+                {/* Browser Window Header Bar */}
+                <div className="flex items-center justify-between px-2 pb-2 border-b border-stone-100">
+                  {/* Window Dots / Title */}
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-3 h-3 rounded-full bg-red-400 inline-block" />
+                      <span className="w-3 h-3 rounded-full bg-amber-400 inline-block" />
+                      <span className="w-3 h-3 rounded-full bg-emerald-400 inline-block" />
+                    </div>
+                    <span className="text-[11px] font-mono text-stone-400 hidden sm:inline-block pl-2">
+                      {project.slug || "project-preview"}
+                    </span>
+                  </div>
+
+                  {/* Category Pill Badge on top right of window mockup */}
+                  <div className="px-3 py-1 bg-[#D97706] text-white text-[10px] font-black uppercase tracking-wider font-orbitron shadow-xs rounded-full">
+                    {project.category}
+                  </div>
+                </div>
+
+                {/* Main Screenshot Box */}
+                <div className="relative w-full h-[260px] sm:h-[320px] lg:h-[370px] rounded-2xl overflow-hidden bg-stone-900 border border-stone-200 mt-2">
+                  <img
+                    key={currentImgIndex}
+                    src={galleryImages[currentImgIndex] || project.image || "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80"}
+                    alt={`${project.title} screenshot ${currentImgIndex + 1}`}
+                    className="w-full h-full object-cover object-top rounded-2xl transition-all duration-700 ease-in-out transform group-hover:scale-102"
+                  />
+
+                  {/* Slide Counter Overlay on image bottom left */}
+                  {galleryImages.length > 0 && (
+                    <div className="absolute bottom-3 left-3 px-3 py-1 bg-black/80 backdrop-blur-md text-white text-xs font-extrabold font-mono rounded-full border border-white/20 shadow-md">
+                      {currentImgIndex + 1} / {galleryImages.length}
+                    </div>
+                  )}
+                </div>
+
+                {/* Bottom Gallery Toolbar inside browser mockup: Indicator dots (left) & Thumbnails (right) */}
+                <div className="flex items-center justify-between  gap-3 pt-3 px-1 mt-1 border-t border-stone-100">
+                  {/* Indicator Dots */}
                   <div className="flex items-center gap-1.5">
-                    <span className="w-3 h-3 rounded-full bg-red-400 inline-block" />
-                    <span className="w-3 h-3 rounded-full bg-amber-400 inline-block" />
-                    <span className="w-3 h-3 rounded-full bg-emerald-400 inline-block" />
-                  </div>
-                  <span className="text-[11px] font-mono text-stone-400 hidden sm:inline-block pl-2">
-                    {project.slug || "project-preview"}
-                  </span>
-                </div>
-
-                {/* Category Pill Badge on top right of window mockup */}
-                <div className="px-3 py-1 bg-[#D97706] text-white text-[10px] font-black uppercase tracking-wider font-orbitron shadow-xs rounded-full">
-                  {project.category}
-                </div>
-              </div>
-
-              {/* Main Screenshot Box */}
-              <div className="relative w-full h-[260px] sm:h-[320px] lg:h-[370px] rounded-2xl overflow-hidden bg-stone-900 border border-stone-200 mt-2">
-                <img
-                  key={currentImgIndex}
-                  src={galleryImages[currentImgIndex] || project.image || "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80"}
-                  alt={`${project.title} screenshot ${currentImgIndex + 1}`}
-                  className="w-full h-full object-cover object-top rounded-2xl transition-all duration-700 ease-in-out transform group-hover:scale-102"
-                />
-
-                {/* Slide Counter Overlay on image bottom left */}
-                {galleryImages.length > 0 && (
-                  <div className="absolute bottom-3 left-3 px-3 py-1 bg-black/80 backdrop-blur-md text-white text-xs font-extrabold font-mono rounded-full border border-white/20 shadow-md">
-                    {currentImgIndex + 1} / {galleryImages.length}
-                  </div>
-                )}
-              </div>
-
-              {/* Bottom Gallery Toolbar inside browser mockup: Indicator dots (left) & Thumbnails (right) */}
-              <div className="flex items-center justify-between  gap-3 pt-3 px-1 mt-1 border-t border-stone-100">
-                {/* Indicator Dots */}
-                <div className="flex items-center gap-1.5">
-                  {galleryImages.map((_, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setCurrentImgIndex(idx)}
-                      className={`rounded-full transition-all cursor-pointer ${
-                        currentImgIndex === idx
-                          ? "w-6 h-2 bg-[#D97706]"
-                          : "w-2.5 h-2.5 bg-amber-900/20 hover:bg-[#D97706]/50"
-                      }`}
-                      title={`Go to slide ${idx + 1}`}
-                    />
-                  ))}
-                </div>
-
-                {/* Horizontal Thumbnail Cards Strip */}
-                {galleryImages.length > 1 && (
-                  <div className="flex items-center gap-2 overflow-x-auto max-w-[65%] py-1 scrollbar-none" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                    {galleryImages.map((imgUrl, idx) => (
+                    {galleryImages.map((_, idx) => (
                       <button
                         key={idx}
                         onClick={() => setCurrentImgIndex(idx)}
-                        className={`relative w-14 h-10 rounded-lg overflow-hidden border-2 flex-shrink-0 transition-all cursor-pointer ${
-                          currentImgIndex === idx
-                            ? "border-[#D97706] ring-2 ring-[#D97706]/30 scale-105 shadow-sm"
-                            : "border-stone-200 opacity-60 hover:opacity-100"
-                        }`}
-                      >
-                        <img src={imgUrl} alt={`Thumb ${idx + 1}`} className="w-full h-full object-cover object-top" />
-                      </button>
+                        className={`rounded-full transition-all cursor-pointer ${currentImgIndex === idx
+                            ? "w-6 h-2 bg-[#D97706]"
+                            : "w-2.5 h-2.5 bg-amber-900/20 hover:bg-[#D97706]/50"
+                          }`}
+                        title={`Go to slide ${idx + 1}`}
+                      />
                     ))}
                   </div>
-                )}
+
+                  {/* Horizontal Thumbnail Cards Strip */}
+                  {galleryImages.length > 1 && (
+                    <div className="flex items-center gap-2 overflow-x-auto max-w-[65%] py-1 scrollbar-none" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                      {galleryImages.map((imgUrl, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => setCurrentImgIndex(idx)}
+                          className={`relative w-14 h-10 rounded-lg overflow-hidden border-2 flex-shrink-0 transition-all cursor-pointer ${currentImgIndex === idx
+                              ? "border-[#D97706] ring-2 ring-[#D97706]/30 scale-105 shadow-sm"
+                              : "border-stone-200 opacity-60 hover:opacity-100"
+                            }`}
+                        >
+                          <img src={imgUrl} alt={`Thumb ${idx + 1}`} className="w-full h-full object-cover object-top" />
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
         {/* 2-Column Lower Section: Project Overview & Technical Specs vs. Sidebar Stack Details */}
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start mt-20 pt-4">
-          
+
           {/* Left Column (9 Cols): Project Overview & Technical Implementation */}
           <div className="lg:col-span-9 space-y-12 sm:space-y-14">
-            
+
             {/* Project Overview */}
             <div className="space-y-5">
               <div className="flex items-center gap-2.5">
@@ -436,11 +434,11 @@ export default function ProjectDetailPage() {
                 {(project.highlights && project.highlights.length > 0
                   ? project.highlights
                   : [
-                      "Interactive 3D model with real-time material swapping",
-                      "Custom environment mapping for high-fidelity lighting",
-                      "Dynamic state management with Zustand",
-                      "Exploded view animation for internal component inspection"
-                    ]
+                    "Interactive 3D model with real-time material swapping",
+                    "Custom environment mapping for high-fidelity lighting",
+                    "Dynamic state management with Zustand",
+                    "Exploded view animation for internal component inspection"
+                  ]
                 ).map((feature, idx) => (
                   <div key={idx} className="flex items-start gap-3">
                     <div className="w-5 h-5 rounded-full bg-[#FAF6F0] border border-[#D97706]/40 flex items-center justify-center text-[#D97706] flex-shrink-0 mt-0.5">
@@ -506,7 +504,7 @@ export default function ProjectDetailPage() {
 
           {/* Right Column (3 Cols): Narrow Compact Sidebar Stack Details Card & CTA Box */}
           <div className="lg:col-span-3 space-y-5 sticky top-28 w-full max-w-[320px] mx-auto lg:ml-auto">
-            
+
             {/* Stack Details Card with bg-transparent, rounded-sm & compact padding */}
             <div className="p-5 bg-white sm:bg-transparent border border-amber-900/20 rounded-sm space-y-5 shadow-xs">
               <h3

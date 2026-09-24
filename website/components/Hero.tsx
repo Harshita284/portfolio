@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Hero() {
   return (
@@ -100,27 +101,27 @@ export default function Hero() {
 
         {/* Action Buttons & Social Icons */}
         <div className="flex flex-wrap items-center gap-4 pt-4">
-          <a
-            href="#projects"
+          <Link
+            href="/projects"
             className="px-7 py-3.5 bg-[#D97706] hover:bg-[#B45309] text-white font-extrabold text-xs tracking-wider uppercase shadow-md transition-all flex items-center gap-2 active:scale-[0.98] rounded-full"
             style={{ fontFamily: "var(--font-poppins), 'Poppins', sans-serif" }}
           >
             <span>See My Work</span>
             <span className="text-sm">&rarr;</span>
-          </a>
+          </Link>
 
-          <a
-            href="#contact"
+          <Link
+            href="/contact"
             className="px-7 py-3.5 border border-[#D97706] text-[#703513] bg-white hover:bg-amber-500/10 font-bold text-xs tracking-wider uppercase transition-all shadow-2xs rounded-full"
             style={{ fontFamily: "var(--font-poppins), 'Poppins', sans-serif" }}
           >
             Get in Touch
-          </a>
+          </Link>
 
           {/* Social Icon Quick Links */}
           <div className="flex items-center gap-2 ml-1">
             <a
-              href="https://github.com/harshitasharma"
+              href="https://github.com/Harshita284"
               target="_blank"
               rel="noreferrer"
               aria-label="GitHub Profile"
@@ -132,7 +133,7 @@ export default function Hero() {
             </a>
 
             <a
-              href="https://linkedin.com/in/harshita-sharma"
+              href="https://www.linkedin.com/in/harshita-sharma-b44548346/"
               target="_blank"
               rel="noreferrer"
               aria-label="LinkedIn Profile"

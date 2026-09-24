@@ -33,12 +33,43 @@ app.use(cors({
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
+import { v2 as cloudinary } from 'cloudinary';
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME || 'dpnoynz7a',
+  api_key: process.env.CLOUDINARY_API_KEY || '577714716233687',
+  api_secret: process.env.CLOUDINARY_API_SECRET || 'vMvyPzZ6XPDpA20UdnCta13BFW8',
+});
+
 app.get('/', (req: Request, res: Response) => {
   res.json({ success: true, message: 'Portfolio Backend API is running successfully on Vercel!' });
 });
 
 app.get('/api', (req: Request, res: Response) => {
-  res.json({ success: true, message: 'Portfolio API endpoints: /api/projects, /api/blogs, /api/expertise, /api/messages, /api/profile' });
+  res.json({ success: true, message: 'Portfolio API endpoints: /api/projects, /api/blogs, /api/expertise, /api/messages, /api/profile, /api/upload' });
+});
+
+// Cloudinary Image Upload Endpoint
+app.post('/api/upload', async (req: Request, res: Response) => {
+  try {
+    const { image, file } = req.body;
+    const imageData = image || file;
+    if (!imageData) {
+      return res.status(400).json({ success: false, message: 'Image data (base64 string or URL) is required.' });
+    }
+    const result = await cloudinary.uploader.upload(imageData, {
+      folder: 'portfolio',
+    });
+    return res.json({
+      success: true,
+      message: 'Image uploaded successfully to Cloudinary',
+      url: result.secure_url,
+      public_id: result.public_id,
+    });
+  } catch (err: any) {
+    console.error('Cloudinary upload error:', err);
+    return res.status(500).json({ success: false, message: err.message || 'Failed to upload image to Cloudinary' });
+  }
 });
 
 

@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import CallToAction from "@/components/CallToAction";
+import { FaFolderOpen } from "react-icons/fa6";
 
 interface Project {
   id: string;
@@ -150,7 +151,8 @@ export default function ProjectsPage() {
         {/* Top Header Banner */}
         <div className="space-y-4 border-b border-amber-900/15 pb-8">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-500/10 border border-amber-600/30 text-amber-700 text-xs font-bold uppercase tracking-widest font-mono rounded-full">
-            <span>📁 PORTFOLIO ARCHIVES</span>
+            <FaFolderOpen className="w-3.5 h-3.5 text-[#D97706]" />
+            <span>PORTFOLIO ARCHIVES</span>
           </div>
 
           <h1
@@ -176,11 +178,10 @@ export default function ProjectsPage() {
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-4 py-2 text-xs font-bold transition-all rounded-full ${
-                  activeCategory === cat
+                className={`px-4 py-2 text-xs font-bold transition-all rounded-full ${activeCategory === cat
                     ? "bg-[#D97706] text-white shadow-md"
                     : "bg-white border border-amber-900/15 text-[#703513] hover:border-[#D97706]"
-                }`}
+                  }`}
                 style={{ fontFamily: "var(--font-poppins), 'Poppins', sans-serif" }}
               >
                 {cat}

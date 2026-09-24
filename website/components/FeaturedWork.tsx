@@ -26,7 +26,7 @@ export default function FeaturedWork({ projects: initialProjects }: FeaturedWork
       category: "Agency & Corporate",
       techStack: ["React.js", "Next.js", "Tailwind CSS"],
       featured: true,
-      link: "https://github.com/harshitasharma/adnix-agency-interface"
+      link: "https://github.com/Harshita284/adnix-agency-interface"
     },
     {
       id: "2",
@@ -36,7 +36,7 @@ export default function FeaturedWork({ projects: initialProjects }: FeaturedWork
       category: "Custom Software",
       techStack: ["Next.js", "Node.js", "PostgreSQL", "Apache Kafka"],
       featured: true,
-      link: "https://github.com/harshitasharma/thebank-web"
+      link: "https://github.com/Harshita284/thebank-web"
     },
     {
       id: "3",
@@ -46,7 +46,7 @@ export default function FeaturedWork({ projects: initialProjects }: FeaturedWork
       category: "Restaurant & Hospitality",
       techStack: ["React.js", "Express.js", "Node.js", "MongoDB"],
       featured: true,
-      link: "https://github.com/harshitasharma/flavorbyte-restaurant"
+      link: "https://github.com/Harshita284/flavorbyte-restaurant"
     }
   ];
 

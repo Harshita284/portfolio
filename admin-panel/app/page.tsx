@@ -187,6 +187,42 @@ export default function AdminDashboard() {
     setBSlug(generateSlug(val));
   };
 
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+
+  const handleCloudinaryFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, isGallery = false) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploadingImage(true);
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = async () => {
+      try {
+        const base64Image = reader.result;
+        const res = await fetch(`${BACKEND_URL}/api/upload`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ image: base64Image }),
+        });
+        const data = await res.json();
+        if (data.success && data.url) {
+          if (isGallery) {
+            setPImagesStr((prev) => (prev ? `${prev}\n${data.url}` : data.url));
+          } else {
+            setPImage(data.url);
+          }
+          alert("☁️ Image uploaded to Cloudinary successfully!");
+        } else {
+          alert(data.message || "Cloudinary upload failed.");
+        }
+      } catch (err: any) {
+        alert(err.message || "Error uploading image to Cloudinary.");
+      } finally {
+        setIsUploadingImage(false);
+      }
+    };
+  };
+
   useEffect(() => {
     fetchAllData();
 
@@ -1361,25 +1397,49 @@ export default function AdminDashboard() {
                     );
                   })()}
 
-                  {/* Manual URL Inputs */}
+                  {/* Cloudinary File Upload & Manual URL Inputs */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2">
                     <div>
-                      <label className="block text-[#3b1400] font-bold mb-1.5 uppercase text-[10px]">Main Cover Image URL (External Link)</label>
+                      <div className="flex items-center justify-between mb-1.5">
+                        <label className="block text-[#3b1400] font-bold uppercase text-[10px]">Main Cover Image (Cloudinary or URL)</label>
+                        <label className="cursor-pointer text-[10px] font-bold text-[#D97706] hover:underline flex items-center gap-1 bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-200">
+                          <span>☁️ {isUploadingImage ? "Uploading..." : "Upload File to Cloudinary"}</span>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => handleCloudinaryFileUpload(e, false)}
+                            disabled={isUploadingImage}
+                            className="hidden"
+                          />
+                        </label>
+                      </div>
                       <input
                         type="text"
                         value={pImage}
                         onChange={(e) => setPImage(e.target.value)}
-                        placeholder="https://images.unsplash.com/photo-..."
+                        placeholder="https://res.cloudinary.com/dpnoynz7a/..."
                         className="w-full px-4 py-3 bg-white border border-[#F3E2CE] text-[#3b1400] rounded-xl focus:outline-none focus:border-[#D97706] font-mono text-xs"
                       />
                     </div>
                     <div>
-                      <label className="block text-[#3b1400] font-bold mb-1.5 uppercase text-[10px]">Additional Gallery Screenshot URLs (1 URL Per Line)</label>
+                      <div className="flex items-center justify-between mb-1.5">
+                        <label className="block text-[#3b1400] font-bold uppercase text-[10px]">Gallery Screenshots (Cloudinary or URLs)</label>
+                        <label className="cursor-pointer text-[10px] font-bold text-[#D97706] hover:underline flex items-center gap-1 bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-200">
+                          <span>☁️ {isUploadingImage ? "Uploading..." : "Add Image to Cloudinary"}</span>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => handleCloudinaryFileUpload(e, true)}
+                            disabled={isUploadingImage}
+                            className="hidden"
+                          />
+                        </label>
+                      </div>
                       <textarea
                         rows={3}
                         value={pImagesStr}
                         onChange={(e) => setPImagesStr(e.target.value)}
-                        placeholder="https://images.unsplash.com/photo-1...&#10;https://images.unsplash.com/photo-2..."
+                        placeholder="https://res.cloudinary.com/dpnoynz7a/...&#10;https://res.cloudinary.com/dpnoynz7a/..."
                         className="w-full px-4 py-3 bg-white border border-[#F3E2CE] text-[#3b1400] rounded-xl focus:outline-none focus:border-[#D97706] font-mono text-xs"
                       />
                     </div>
